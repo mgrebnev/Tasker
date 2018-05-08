@@ -3,6 +3,8 @@
 #include <sqlite3.h>
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include "ResultDataWrapper.cpp"
 
 using namespace std;
 
@@ -17,8 +19,12 @@ namespace DATABASE_STATE{
 class SQLiteHandler{
     public:
         int connect(string databasePath, bool isCreateIfNotExists);
+        void closeConnection();
+        ResultDataWrapper exec(string query);
     private:
         sqlite3 *currentDataBase;
+
+        ResultDataWrapper callback(string query);
 
         bool isExists(string databasePath);
         int initConnection(string databasePath);
