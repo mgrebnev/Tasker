@@ -22,10 +22,14 @@ int main(){
 		return 0;
 	}
 
-	ResultDataWrapper resultData = handler->exec("SELECT * FROM TASK");
+	ResultDataWrapper resultData = handler->executeQuery("SELECT * FROM TASK");
+
 	std::vector<string> data = resultData.data;
 	for (int i = 0; i < data.size(); i++){
 		cout << data[i] << endl;
 	}
+
+	handler->executeUpdate("INSERT INTO TASK (id,description) VALUES (null,'shit')");
+
    	return 0;
 }

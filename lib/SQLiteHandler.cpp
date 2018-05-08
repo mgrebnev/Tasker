@@ -20,12 +20,12 @@ bool SQLiteHandler::isExists(string databasePath){
 int SQLiteHandler::initConnection(string databasePath){
     int resultCode = sqlite3_open(databasePath.data(), &this->currentDataBase);
 	if(resultCode) 
-		return 0;
+		return DATABASE_STATE::FAIL;
 	else
-        return 1;
+        return DATABASE_STATE::SUCCESS;
 }
 
-ResultDataWrapper SQLiteHandler::exec(string query){
+ResultDataWrapper SQLiteHandler::executeQuery(string query){
     return this->callback(query);
 }
 
@@ -49,11 +49,25 @@ ResultDataWrapper SQLiteHandler::callback(string query) {
             
             if (typeResult == SQLITE_DONE || typeResult == SQLITE_ERROR) break;
         }
-	}
+        resultDataObject.resultCode = DATABASE_STATE::SUCCESS;
+	}else{
+        resultDataObject.resultCode = DATABASE_STATE::FAIL;
+    }
 
-    resultDataObject.resultCode = prepareResultCode;
     resultDataObject.data = resultData;
 	return resultDataObject;
+}
+
+int SQLiteHandler::executeUpdate(string query){
+    sqlite3_stmt *statement; 
+    int prepareResultCode = sqlite3_prepare(this->currentDataBase, query.data(), -1, &statement, 0);
+    if (prepareResultCode != SQLITE_OK){
+        return DATABASE_STATE::FAIL;
+    }else{
+        int resultUpdateCode = sqlite3_step(statement);
+        sqlite3_finalize(statement);
+        return resultUpdateCode == 101 ? DATABASE_STATE::SUCCESS: DATABASE_STATE::FAIL;
+    }
 }
 
 void SQLiteHandler::closeConnection(){
