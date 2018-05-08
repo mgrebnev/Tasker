@@ -1,5 +1,13 @@
 #include "SQLiteHandler.h"
 
+const static std::string defaultTableSQL(
+    "CREATE TABLE IF NOT EXISTS `TASK` ( "
+    "`id` INTEGER PRIMARY KEY AUTOINCREMENT,"
+    "`description` TEXT,"
+    "`status` TEXT"
+    ");"
+);
+
 int SQLiteHandler::connect(string databasePath, bool isCreateIfNotExists){
     bool databaseFileIsExists = isExists(databasePath);
     if (databaseFileIsExists){
@@ -15,6 +23,13 @@ int SQLiteHandler::connect(string databasePath, bool isCreateIfNotExists){
 bool SQLiteHandler::isExists(string databasePath){
     std::ifstream f(databasePath.c_str());
     return f.good();
+}
+
+int SQLiteHandler::initSchema(){
+    if (this->currentDataBase)
+        return this->executeUpdate(defaultTableSQL.data());
+    
+    return 0;
 }
 
 int SQLiteHandler::initConnection(string databasePath){

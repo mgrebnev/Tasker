@@ -19,7 +19,9 @@ namespace DATABASE_STATE{
 class SQLiteHandler{
     public:
         int connect(string databasePath, bool isCreateIfNotExists);
+        int initSchema();
         void closeConnection();
+        
         ResultDataWrapper executeQuery(string query);
         int executeUpdate(string query);
     private:

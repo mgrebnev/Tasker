@@ -13,7 +13,7 @@ int main(){
 
 	SQLiteHandler *handler = new SQLiteHandler();
 
-	int connection = handler->connect(databasePath,false);
+	int connection = handler->connect(databasePath,true);
 	if (connection == DATABASE_STATE::FILE_NOT_FOUND){
 		Formatter::cout("File ",Formatter::WHITE);
 		Formatter::cout(databasePath,Formatter::BRIGHT_GREEN,Formatter::BOLD_BRIGHT);
@@ -21,15 +21,26 @@ int main(){
 		Formatter::endl();
 		return 0;
 	}
+	cout << handler->initSchema() << endl;
+
+	int resultOperationCode = handler->executeUpdate(
+		"INSERT INTO TASK (id,description,status) VALUES (null,'Drink coffe','in work')"
+    );
+	cout << resultOperationCode << endl;
 
 	ResultDataWrapper resultData = handler->executeQuery("SELECT * FROM TASK");
 
 	std::vector<string> data = resultData.data;
-	for (int i = 0; i < data.size(); i++){
+	for (int i = 0; i < data.size(); i++)
 		cout << data[i] << endl;
-	}
-
-	handler->executeUpdate("INSERT INTO TASK (id,description) VALUES (null,'shit')");
-
+	
    	return 0;
 }
+
+/*
+	CREATE TABLE `TASK` (
+	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`description`	TEXT,
+	`status`	TEXT
+);
+*/
