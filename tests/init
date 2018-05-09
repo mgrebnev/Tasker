@@ -1,0 +1,2 @@
+all:
+	g++ crud_test.cpp -lsqlite3 ./../lib/SQLiteHandler.cpp -lsqlite3 ./../lib/Tasker.cpp ./../lib/ResultDataWrapper.cpp -o test
