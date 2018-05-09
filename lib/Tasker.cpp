@@ -21,6 +21,24 @@ std::vector<Task> Tasker::findAll(){
     return resultTasks;
 }
 
+int Tasker::remove(string taskId){
+    string deleteQuery = this->prepareDeleteStatement(taskId);
+    return this->handler->executeUpdate(deleteQuery);
+}
+
+Task Tasker::find(string id){
+    string selectQuery = this->prepareSelectStatement(id);
+    ResultDataWrapper dataObject = handler->executeQuery(selectQuery);
+
+    Task task;
+    if (dataObject.resultCode == DATABASE_STATE::SUCCESS && dataObject.data.size() > 0){
+        std::vector<Task> taskList = parse(dataObject.data);
+        if (taskList.size() > 0) 
+            return taskList.at(0);
+    }
+    return task;
+}
+
 std::vector<Task> Tasker::parse(std::vector<string> data){
     std::vector<Task> resultTasks;
     if (data.size() >= 3){
@@ -29,7 +47,6 @@ std::vector<Task> Tasker::parse(std::vector<string> data){
             task.id = data.at(i);
             task.description = data.at(i + 1);
             task.status = data.at(i + 2);
-
             resultTasks.push_back(task);
         }
     }
@@ -53,3 +70,6 @@ string Tasker::prepareSelectStatement(string id){
     return "SELECT * FROM TASK WHERE id = " + id;
 }
 
+string Tasker::prepareDeleteStatement(string id){
+    return "DELETE FROM TASK WHERE id = " + id;
+}

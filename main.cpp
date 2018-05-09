@@ -34,12 +34,14 @@ int main(){
 	cout << tasker->add(task) << endl;
 
 	std::vector<Task> tasks = tasker->findAll();
-	
+
 	cout << "Count tasks: " << tasks.size() << endl;
 	for (int i = 0; i < tasks.size(); i++){
 		Task currentTask = tasks.at(i);
 		cout << currentTask.id << " " << currentTask.description << " " << currentTask.status << endl;
 	}
+
+	cout << tasker->remove("15") << endl;
 	
    	return 0;
 }
