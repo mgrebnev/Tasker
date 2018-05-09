@@ -4,6 +4,7 @@
 #include "lib/SQLiteHandler.h"
 #include "lib/Tasker.h"
 #include "lib/colorout.h"
+#include "lib/models/Task.cpp"
 #include <string>
 
 using namespace std;
@@ -23,24 +24,22 @@ int main(){
 	}
 	cout << handler->initSchema() << endl;
 
-	int resultOperationCode = handler->executeUpdate(
-		"INSERT INTO TASK (id,description,status) VALUES (null,'Drink coffe','in work')"
-    );
-	cout << resultOperationCode << endl;
+	Tasker *tasker = new Tasker(handler);
 
-	ResultDataWrapper resultData = handler->executeQuery("SELECT * FROM TASK");
+	Task task;
+	task.id = "null";
+	task.description = "Say: Hello, World!";
+	task.status = "accept";
 
-	std::vector<string> data = resultData.data;
-	for (int i = 0; i < data.size(); i++)
-		cout << data[i] << endl;
+	cout << tasker->add(task) << endl;
+
+	std::vector<Task> tasks = tasker->findAll();
+	
+	cout << "Count tasks: " << tasks.size() << endl;
+	for (int i = 0; i < tasks.size(); i++){
+		Task currentTask = tasks.at(i);
+		cout << currentTask.id << " " << currentTask.description << " " << currentTask.status << endl;
+	}
 	
    	return 0;
 }
-
-/*
-	CREATE TABLE `TASK` (
-	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
-	`description`	TEXT,
-	`status`	TEXT
-);
-*/
