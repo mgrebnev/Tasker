@@ -1,3 +1,6 @@
+#ifndef COLOROUT_H_
+#define COLOROUT_H_
+
 #include <stdio.h>
 
 using namespace std;
@@ -29,19 +32,21 @@ namespace Formatter{
         INVERSE_OFF         = 27
     };
 
-    void cout(string data, Color fgColor, Color bgColor, Style fontStyle){
+    inline void cout(string data, Color fgColor, Color bgColor, Style fontStyle){
         std::cout << "\033[" << fontStyle << ";" << bgColor + 10 << ";" << fgColor << "m" << data << "\033[0m";
     }
 
-    void cout(string data, Color fgColor, Style fontStyle){
+    inline void cout(string data, Color fgColor, Style fontStyle){
         std::cout << "\033[" << fontStyle << ";" << fgColor << "m" << data << "\033[0m";
     }
 
-    void cout(string data, Color fgColor){
+    inline void cout(string data, Color fgColor){
         std::cout << "\033["  << fgColor << "m" << data << "\033[0m";
     }
 
-    void endl(){
+    inline void endl(){
         std::cout << std::endl;
     }
 }
+
+#endif

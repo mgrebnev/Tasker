@@ -4,9 +4,10 @@
 #include <string>
 #include "lib/SQLiteHandler.h"
 #include "lib/Tasker.h"
-#include "lib/colorout.h"
-#include "lib/models/Task.cpp"
+#include "lib/console/colorout.h"
 #include "lib/console/ArgumentsResolver.h"
+#include "lib/models/Task.cpp"
+#include "lib/console/ConsoleTaskIOHandler.h"
 
 using namespace std;
 
@@ -24,6 +25,25 @@ int main(int argc, char* argv[]){
 		return 0;
 	}
 	handler->initSchema();
+
+	vector<std::pair<string,string>> consoleParams = ArgumentsResolver::resolve(argc,argv);
+	if (consoleParams.size() == 0)
+		return 0;
+
+	Tasker::TaskRepository *tasker = new Tasker::TaskRepository(handler);
+	ConsoleTaskIOHandler *consoleHandler = new ConsoleTaskIOHandler();
+
+	for (int i = 0; i < consoleParams.size(); i++){
+		std::pair<string,string> currentParam = consoleParams.at(i);
+		if (currentParam.first == "-s"){
+			vector<Task> tasks = tasker->findAll();
+			consoleHandler->show(tasks);
+		}
+	}
+
+	delete handler;
+	delete tasker;
+	delete consoleHandler;
 
    	return 0;
 }
