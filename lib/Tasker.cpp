@@ -53,6 +53,26 @@ std::vector<Task> Tasker::parse(std::vector<string> data){
     return resultTasks;
 }
 
+int Tasker::updateStatus(string id, string status){
+    std::map<string,string> params {
+        {"status",status}
+    };
+
+    string updateQuery = this->prepareUpdateStatement(id,params);
+    
+    return this->handler->executeUpdate(updateQuery);
+}
+
+int Tasker::updateDescription(string id, string description){
+    std::map<string,string> params {
+        {"description",description}
+    };
+
+    string updateQuery = this->prepareUpdateStatement(id,params);
+
+    return this->handler->executeUpdate(updateQuery);
+}
+
 string Tasker::prepareInsertStatement(Task task){
     return std::string( 
         "INSERT INTO TASK VALUES "
@@ -72,4 +92,13 @@ string Tasker::prepareSelectStatement(string id){
 
 string Tasker::prepareDeleteStatement(string id){
     return "DELETE FROM TASK WHERE id = " + id;
+}
+
+string Tasker::prepareUpdateStatement(string id, std::map<string,string> params){
+    string updateQuery = "UPDATE TASK SET";
+    for (auto iterator = params.begin(); iterator != params.end(); iterator++){ // пздц итератор инкрементить...
+        updateQuery += " " + iterator->first + "='" + iterator->second + "'";
+    }
+    updateQuery += " WHERE id = " + id;
+    return updateQuery;
 }

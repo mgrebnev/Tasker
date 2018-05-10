@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 #include "SQLiteHandler.h"
 #include "models/Task.cpp"
 
@@ -11,10 +12,11 @@ class Tasker{
 
         int add(Task task);
         int remove(string taskId);
-
         Task find(string id);
         std::vector<Task> findAll();
         std::vector<Task> parse(std::vector<string> data);
+        int updateStatus(string id, string status);
+        int updateDescription(string id, string description);
 
     private:
         SQLiteHandler *handler;
@@ -23,4 +25,5 @@ class Tasker{
         string prepareSelectStatement(string id);
         string prepareSelectStatement();
         string prepareDeleteStatement(string id);
+        string prepareUpdateStatement(string id, std::map<string,string> params);
 };
