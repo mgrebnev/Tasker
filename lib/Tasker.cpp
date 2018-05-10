@@ -96,9 +96,9 @@ string Tasker::prepareDeleteStatement(string id){
 
 string Tasker::prepareUpdateStatement(string id, std::map<string,string> params){
     string updateQuery = "UPDATE TASK SET";
-    for (auto iterator = params.begin(); iterator != params.end(); iterator++){ // пздц итератор инкрементить...
+    for (auto iterator = params.begin(); iterator != params.end(); iterator++)// пздц итератор инкрементить...
         updateQuery += " " + iterator->first + "='" + iterator->second + "'";
-    }
+    
     updateQuery += " WHERE id = " + id;
     return updateQuery;
 }

@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp -lsqlite3 lib/SQLiteHandler.cpp -lsqlite3 lib/Tasker.cpp lib/ResultDataWrapper.cpp -o main --std=c++0x
+	g++ main.cpp -lsqlite3 lib/SQLiteHandler.cpp -lsqlite3 lib/Tasker.cpp lib/ResultDataWrapper.cpp lib/console/ArgumentsResolver.cpp -o main --std=c++0x

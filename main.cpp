@@ -1,15 +1,16 @@
 #include <iostream>
 #include <stdio.h>
 #include <sqlite3.h>
+#include <string>
 #include "lib/SQLiteHandler.h"
 #include "lib/Tasker.h"
 #include "lib/colorout.h"
 #include "lib/models/Task.cpp"
-#include <string>
+#include "lib/console/ArgumentsResolver.h"
 
 using namespace std;
 
-int main(){
+int main(int argc, char* argv[]){
 	string databasePath = "tasks.db";
 
 	SQLiteHandler *handler = new SQLiteHandler();

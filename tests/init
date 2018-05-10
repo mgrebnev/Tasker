@@ -1,2 +1,6 @@
 all:
-	g++ crud_test.cpp -lsqlite3 ./../lib/SQLiteHandler.cpp -lsqlite3 ./../lib/Tasker.cpp ./../lib/ResultDataWrapper.cpp -o test
+	g++ crud_test.cpp -lsqlite3 ./../lib/SQLiteHandler.cpp 
+					  -lsqlite3 ./../lib/Tasker.cpp 
+					  			./../lib/ResultDataWrapper.cpp 
+					  		    ./../console/ArgumentsResolver.cpp
+					  -o test --std=c++0x
