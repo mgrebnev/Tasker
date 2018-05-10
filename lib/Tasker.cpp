@@ -1,15 +1,17 @@
 #include "Tasker.h"
 
-Tasker::Tasker(SQLiteHandler *handler){
+using namespace Tasker;
+
+TaskRepository::TaskRepository(SQLiteHandler *handler){
     this->handler = handler;
 }
 
-int Tasker::add(Task task){
+int TaskRepository::add(Task task){
     string insertQuery = this->prepareInsertStatement(task);
     return this->handler->executeUpdate(insertQuery);
 }
 
-std::vector<Task> Tasker::findAll(){
+std::vector<Task> TaskRepository::findAll(){
     std::vector<Task> resultTasks;
 
     string selectQuery = this->prepareSelectStatement();
@@ -21,12 +23,12 @@ std::vector<Task> Tasker::findAll(){
     return resultTasks;
 }
 
-int Tasker::remove(string taskId){
+int TaskRepository::remove(string taskId){
     string deleteQuery = this->prepareDeleteStatement(taskId);
     return this->handler->executeUpdate(deleteQuery);
 }
 
-Task Tasker::find(string id){
+Task TaskRepository::find(string id){
     string selectQuery = this->prepareSelectStatement(id);
     ResultDataWrapper dataObject = handler->executeQuery(selectQuery);
 
@@ -39,7 +41,7 @@ Task Tasker::find(string id){
     return task;
 }
 
-std::vector<Task> Tasker::parse(std::vector<string> data){
+std::vector<Task> TaskRepository::parse(std::vector<string> data){
     std::vector<Task> resultTasks;
     if (data.size() >= 3){
         for (int i = 0; i < data.size(); i = i + 3){
@@ -53,7 +55,7 @@ std::vector<Task> Tasker::parse(std::vector<string> data){
     return resultTasks;
 }
 
-int Tasker::updateStatus(string id, string status){
+int TaskRepository::updateStatus(string id, string status){
     std::map<string,string> params {
         {"status",status}
     };
@@ -63,7 +65,7 @@ int Tasker::updateStatus(string id, string status){
     return this->handler->executeUpdate(updateQuery);
 }
 
-int Tasker::updateDescription(string id, string description){
+int TaskRepository::updateDescription(string id, string description){
     std::map<string,string> params {
         {"description",description}
     };
@@ -73,7 +75,7 @@ int Tasker::updateDescription(string id, string description){
     return this->handler->executeUpdate(updateQuery);
 }
 
-string Tasker::prepareInsertStatement(Task task){
+string TaskRepository::prepareInsertStatement(Task task){
     return std::string( 
         "INSERT INTO TASK VALUES "
         "(" + task.id + ", " + 
@@ -82,19 +84,19 @@ string Tasker::prepareInsertStatement(Task task){
     );
 }
 
-string Tasker::prepareSelectStatement(){
+string TaskRepository::prepareSelectStatement(){
     return "SELECT * FROM TASK";
 }
 
-string Tasker::prepareSelectStatement(string id){
+string TaskRepository::prepareSelectStatement(string id){
     return "SELECT * FROM TASK WHERE id = " + id;
 }
 
-string Tasker::prepareDeleteStatement(string id){
+string TaskRepository::prepareDeleteStatement(string id){
     return "DELETE FROM TASK WHERE id = " + id;
 }
 
-string Tasker::prepareUpdateStatement(string id, std::map<string,string> params){
+string TaskRepository::prepareUpdateStatement(string id, std::map<string,string> params){
     string updateQuery = "UPDATE TASK SET";
     for (auto iterator = params.begin(); iterator != params.end(); iterator++)// пздц итератор инкрементить...
         updateQuery += " " + iterator->first + "='" + iterator->second + "'";

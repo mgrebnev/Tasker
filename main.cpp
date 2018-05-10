@@ -25,7 +25,5 @@ int main(int argc, char* argv[]){
 	}
 	handler->initSchema();
 
-	Tasker *tasker = new Tasker(handler);
-	
    	return 0;
 }
