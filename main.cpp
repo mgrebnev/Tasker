@@ -35,11 +35,31 @@ int main(int argc, char* argv[]){
 
 	for (int i = 0; i < consoleParams.size(); i++){
 		std::pair<string,string> currentParam = consoleParams.at(i);
+		if (currentParam.first == "--help"){
+			cout << std::string(
+				" -a      add task\n"
+				" -d      delete task by [id] (#)\n"
+				" --help  show this help message and exit\n"
+				" -s      show task list\n"
+    			" -ud     update description of task by [id] (#)\n"
+    			" -us     update status of task by [id] (#)\n"
+			);
+			return 0;
+		}
+	}
+
+	for (int i = 0; i < consoleParams.size(); i++){
+		std::pair<string,string> currentParam = consoleParams.at(i);
 		if (currentParam.first == "-s"){
 			vector<Task> tasks = tasker->findAll();
-			consoleHandler->show(tasks);
+			if (tasks.size() == 0)
+				Formatter::cout("Task list is empty! Use -a to add task or check --help\n", Formatter::WHITE,Formatter::BOLD_BRIGHT);
+			else
+				consoleHandler->show(tasks);
+
 			continue;
 		}
+
 		if (currentParam.first == "-d"){
 			string removeId = currentParam.second;
 			int removeOperationResultCode = tasker->remove(removeId);
@@ -48,9 +68,9 @@ int main(int argc, char* argv[]){
 			else
 				Formatter::cout("An error occurred while deleting task with #" + removeId + "\n",Formatter::BRIGHT_RED);
 			
-			if (consoleParams.size() > 1 && i != 0) cout << "\n";
 			continue;
 		}
+
 		if (currentParam.first == "-a"){
 			Task task = consoleHandler->readTask();
 
@@ -60,9 +80,9 @@ int main(int argc, char* argv[]){
 			else
 				Formatter::cout("An error occurred while add task \n",Formatter::BRIGHT_RED);
 			
-			if (consoleParams.size() > 1 && i != 0) cout << "\n";
 			continue;
 		}
+
 		if (currentParam.first == "-us"){
 			string updateId = currentParam.second;
 			string status = consoleHandler->readStatus();
@@ -73,9 +93,9 @@ int main(int argc, char* argv[]){
 			else
 				Formatter::cout("An error occurred while update task \n",Formatter::BRIGHT_RED);
 			
-			if (consoleParams.size() > 1 && i != 0) cout << "\n";
 			continue;
 		}
+
 		if (currentParam.first == "-ud"){
 			string updateId = currentParam.second;
 			string description = consoleHandler->readDescription();
@@ -86,9 +106,9 @@ int main(int argc, char* argv[]){
 			else
 				Formatter::cout("An error occurred while update task \n",Formatter::BRIGHT_RED);
 			
-			if (consoleParams.size() > 1 && i != 0) cout << "\n";
 			continue;
 		}
+
 	}
 
 	delete handler;

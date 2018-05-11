@@ -17,6 +17,7 @@ vector<std::pair<string,string>> ArgumentsResolver::resolve(int argc, char* argv
 
     params["-s"] = false;
     params["-a"] = false;
+    params["--help"] = false;
 
     vector<std::pair<string,string>> resolvedParams;
     for (int i = 0; i < argc; i++){
