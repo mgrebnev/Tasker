@@ -1,5 +1,5 @@
 # Tasker v1.1
-![Show task list](info/task_list.png)
+![Show task list](info/default_view.png)
 ### How to use
 **Linux**
 
