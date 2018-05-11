@@ -12,7 +12,10 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-	string databasePath = "tasks.db";
+	char *currentPath;
+    currentPath = getcwd(0,0);
+
+	string databasePath = string(currentPath) + "/tasks.db";
 
 	SQLiteHandler *handler = new SQLiteHandler();
 
