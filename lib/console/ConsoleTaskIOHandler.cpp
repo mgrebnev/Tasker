@@ -13,7 +13,7 @@ void ConsoleTaskIOHandler::show(vector<Task> tasks){
     };
 
     cout << endl;
-    
+
     for (int i = 0; i < columns.size(); i++){
         string currentKey = columns.at(i).first;
         int currentValue = columns.at(i).second;
@@ -39,6 +39,40 @@ void ConsoleTaskIOHandler::show(vector<Task> tasks){
     cout << endl;
 }
 
+Task ConsoleTaskIOHandler::readTask(){
+    Task task;
+
+    task.description = readDescription();
+    task.status = readStatus();
+
+    task.id = "null";
+    return task;
+}
+
+string ConsoleTaskIOHandler::readStatus(){
+    string status;
+
+    Formatter::cout("Enter status (accepted, in work, unbegun, important): ", Formatter::WHITE, Formatter::BOLD_BRIGHT);
+    std::getline(std::cin, status);
+
+    if (status.empty() || status.size() > 10)
+        status = "unbegun";
+
+    return status;
+}
+
+string ConsoleTaskIOHandler::readDescription(){
+    string description;
+
+    Formatter::cout("Enter description: ", Formatter::WHITE, Formatter::BOLD_BRIGHT);
+    std::getline(std::cin, description);
+
+    if (description.empty())
+        description = "-";
+
+    return description;
+}
+
 void ConsoleTaskIOHandler::cycleCount(int count, string data){
     for (int i = 0; i < count; i++) cout << data;
 }
@@ -50,3 +84,4 @@ Formatter::Color ConsoleTaskIOHandler::getStatusColor(string status){
     if (status == "important") return Formatter::RED;
     return Formatter::WHITE;
 }
+

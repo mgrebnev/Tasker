@@ -38,6 +38,7 @@ int main(int argc, char* argv[]){
 		if (currentParam.first == "-s"){
 			vector<Task> tasks = tasker->findAll();
 			consoleHandler->show(tasks);
+			continue;
 		}
 		if (currentParam.first == "-d"){
 			string removeId = currentParam.second;
@@ -47,7 +48,46 @@ int main(int argc, char* argv[]){
 			else
 				Formatter::cout("An error occurred while deleting task with #" + removeId + "\n",Formatter::BRIGHT_RED);
 			
-			if (consoleParams.size() > 1) cout << "\n";
+			if (consoleParams.size() > 1 && i != 0) cout << "\n";
+			continue;
+		}
+		if (currentParam.first == "-a"){
+			Task task = consoleHandler->readTask();
+
+			int addOperationResultCode = tasker->add(task);
+			if (addOperationResultCode == DATABASE_STATE::SUCCESS)
+				Formatter::cout("Task successully added\n",Formatter::BRIGHT_GREEN);
+			else
+				Formatter::cout("An error occurred while add task \n",Formatter::BRIGHT_RED);
+			
+			if (consoleParams.size() > 1 && i != 0) cout << "\n";
+			continue;
+		}
+		if (currentParam.first == "-us"){
+			string updateId = currentParam.second;
+			string status = consoleHandler->readStatus();
+
+			int updateOperationResultCode = tasker->updateStatus(updateId,status);
+			if (updateOperationResultCode == DATABASE_STATE::SUCCESS)
+				Formatter::cout("Task successully updated\n",Formatter::BRIGHT_GREEN);
+			else
+				Formatter::cout("An error occurred while update task \n",Formatter::BRIGHT_RED);
+			
+			if (consoleParams.size() > 1 && i != 0) cout << "\n";
+			continue;
+		}
+		if (currentParam.first == "-ud"){
+			string updateId = currentParam.second;
+			string description = consoleHandler->readDescription();
+
+			int updateOperationResultCode = tasker->updateDescription(updateId,description);
+			if (updateOperationResultCode == DATABASE_STATE::SUCCESS)
+				Formatter::cout("Task successully updated\n",Formatter::BRIGHT_GREEN);
+			else
+				Formatter::cout("An error occurred while update task \n",Formatter::BRIGHT_RED);
+			
+			if (consoleParams.size() > 1 && i != 0) cout << "\n";
+			continue;
 		}
 	}
 
