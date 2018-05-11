@@ -24,7 +24,7 @@ void ConsoleTaskIOHandler::show(vector<Task> tasks){
     cout << endl;
 
     for (int i = 0; i < tasks.size(); i++){
-        Task currentTask = tasks.at(i);
+        Task currentTask = this->getValid(tasks.at(i));
 
         Formatter::cout(currentTask.id, Formatter::WHITE, Formatter::BOLD_BRIGHT);
         cycleCount(columns.at(0).second - currentTask.id.size()," ");
@@ -37,6 +37,25 @@ void ConsoleTaskIOHandler::show(vector<Task> tasks){
     }
 
     cout << endl;
+}
+
+Task ConsoleTaskIOHandler::getValid(Task task){
+    if (task.status.size() > 10)
+        task.status = "-";
+     
+     return task;
+}
+
+void ConsoleTaskIOHandler::cycleCount(int count, string data){
+    for (int i = 0; i < count; i++) cout << data;
+}
+
+Formatter::Color ConsoleTaskIOHandler::getStatusColor(string status){
+    if (status == "accepted") return Formatter::GREEN;
+    if (status == "in work") return Formatter::BLUE;
+    if (status == "unbegun") return Formatter::BRIGHT_MAGNETA;
+    if (status == "important") return Formatter::RED;
+    return Formatter::WHITE;
 }
 
 Task ConsoleTaskIOHandler::readTask(){
@@ -73,15 +92,4 @@ string ConsoleTaskIOHandler::readDescription(){
     return description;
 }
 
-void ConsoleTaskIOHandler::cycleCount(int count, string data){
-    for (int i = 0; i < count; i++) cout << data;
-}
-
-Formatter::Color ConsoleTaskIOHandler::getStatusColor(string status){
-    if (status == "accepted") return Formatter::GREEN;
-    if (status == "in work") return Formatter::BLUE;
-    if (status == "unbegun") return Formatter::BRIGHT_MAGNETA;
-    if (status == "important") return Formatter::RED;
-    return Formatter::WHITE;
-}
 

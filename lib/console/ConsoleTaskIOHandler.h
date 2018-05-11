@@ -18,4 +18,5 @@ class ConsoleTaskIOHandler{
     private:
         void cycleCount(int count, string data);
         Formatter::Color getStatusColor(string status);
+        Task getValid(Task task);
 };
