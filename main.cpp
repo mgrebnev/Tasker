@@ -39,6 +39,16 @@ int main(int argc, char* argv[]){
 			vector<Task> tasks = tasker->findAll();
 			consoleHandler->show(tasks);
 		}
+		if (currentParam.first == "-d"){
+			string removeId = currentParam.second;
+			int removeOperationResultCode = tasker->remove(removeId);
+			if (removeOperationResultCode == DATABASE_STATE::SUCCESS)
+				Formatter::cout("Task #" + removeId + " was successfully deleted\n",Formatter::BRIGHT_GREEN);
+			else
+				Formatter::cout("An error occurred while deleting task with #" + removeId + "\n",Formatter::BRIGHT_RED);
+			
+			if (consoleParams.size() > 1) cout << "\n";
+		}
 	}
 
 	delete handler;
