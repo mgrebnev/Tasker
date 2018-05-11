@@ -1,5 +1,9 @@
 # Tasker v1.1
-![Show task list](info/default_view.png)
+
+![Show task list](info/task_list.png)
+
+Tasker is simple light weight to-do manager (200 Kb without db)
+
 ### How to use
 **Linux**
 
