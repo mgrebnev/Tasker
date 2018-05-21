@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdio.h>
-#include <sqlite3.h>
 #include <string>
 #include "lib/SQLiteHandler.h"
 #include "lib/Tasker.h"
@@ -9,18 +8,12 @@
 #include "lib/models/Task.cpp"
 #include "lib/console/ConsoleTaskIOHandler.h"
 #include "lib/utils/ApplicationMemoryUtil.h"
+#include "lib/utils/FileUtil.h"
 
 using namespace std;
 
-void clearMemory(SQLiteHandler *handler,
-				 Tasker::TaskRepository *tasker,
-				 ConsoleTaskIOHandler *consoleHandler);
-
 int main(int argc, char* argv[]){
-	char *currentPath;
-    currentPath = getcwd(0,0);
-
-	string databasePath = string(currentPath) + "/tasks.db";
+	string databasePath = FileUtil::getExecutablePath(argv[0]) + "/tasks.db";
 
 	SQLiteHandler *handler = new SQLiteHandler();
 
