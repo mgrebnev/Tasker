@@ -8,8 +8,13 @@
 #include "lib/console/ArgumentsResolver.h"
 #include "lib/models/Task.cpp"
 #include "lib/console/ConsoleTaskIOHandler.h"
+#include "lib/utils/ApplicationMemoryUtil.h"
 
 using namespace std;
+
+void clearMemory(SQLiteHandler *handler,
+				 Tasker::TaskRepository *tasker,
+				 ConsoleTaskIOHandler *consoleHandler);
 
 int main(int argc, char* argv[]){
 	char *currentPath;
@@ -25,14 +30,18 @@ int main(int argc, char* argv[]){
 		Formatter::cout(databasePath,Formatter::BRIGHT_GREEN,Formatter::BOLD_BRIGHT);
 		Formatter::cout(" not found!",Formatter::WHITE);
 		Formatter::endl();
+
+		ApplicationMemoryUtil::clearMemory(handler);
 		return 0;
 	}
 	handler->initSchema();
 
 	vector<std::pair<string,string>> consoleParams = ArgumentsResolver::resolve(argc,argv);
-	if (consoleParams.size() == 0)
+	if (consoleParams.size() == 0){
+		ApplicationMemoryUtil::clearMemory(handler);
 		return 0;
-
+	}
+		
 	Tasker::TaskRepository *tasker = new Tasker::TaskRepository(handler);
 	ConsoleTaskIOHandler *consoleHandler = new ConsoleTaskIOHandler();
 
@@ -113,9 +122,7 @@ int main(int argc, char* argv[]){
 		}
 	}
 
-	delete handler;
-	delete tasker;
-	delete consoleHandler;
+	ApplicationMemoryUtil::clearMemory(handler,tasker,consoleHandler);
 
    	return 0;
 }
