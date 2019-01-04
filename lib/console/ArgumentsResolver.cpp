@@ -1,11 +1,12 @@
 #include "ArgumentsResolver.h"
 
 /*
-    -s       | Show all tasks
-    -a       | Add task
-    -d [id]  | Delete task by id
-    -ud [id] | Update description of task by id
-    -us [id] | Update status of task by id
+    -s         | Show all tasks
+    -a         | Add task
+    -d [id]    | Delete task by id
+    -ud [id]   | Update description of task by id
+    -us [id]   | Update status of task by id
+    --help, -h | Show help message
 */
 
 vector<std::pair<string,string>> ArgumentsResolver::resolve(int argc, char* argv[]){
@@ -18,6 +19,7 @@ vector<std::pair<string,string>> ArgumentsResolver::resolve(int argc, char* argv
     params["-s"] = false;
     params["-a"] = false;
     params["--help"] = false;
+    params["-h"] = false;
 
     vector<std::pair<string,string>> resolvedParams;
     for (int i = 0; i < argc; i++){

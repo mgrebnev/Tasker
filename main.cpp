@@ -40,14 +40,14 @@ int main(int argc, char* argv[]){
 
 	for (int i = 0; i < consoleParams.size(); i++){
 		std::pair<string,string> currentParam = consoleParams.at(i);
-		if (currentParam.first == "--help"){
+		if (currentParam.first == "--help" | currentParam.first == "-h"){
 			cout << std::string(
-				" -a      add task\n"
-				" -d      delete task by [id] (#)\n"
-				" --help  show this help message and exit\n"
-				" -s      show task list\n"
-    			" -ud     update description of task by [id] (#)\n"
-    			" -us     update status of task by [id] (#)\n"
+				" -a          | add task\n"
+				" -d          | delete task by [id] (#)\n"
+				" --help, -h  | show this help message and exit\n"
+				" -s          | show task list\n"
+    			" -ud         | update description of task by [id] (#)\n"
+    			" -us         | update status of task by [id] (#)\n"
 			);
 			return 0;
 		}
